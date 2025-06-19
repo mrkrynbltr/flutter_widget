@@ -107,23 +107,8 @@ class DashboardScreen extends StatelessWidget {
                   size: 30,
                   ),
                 ),
-                onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                content: Text('Playing Item ${index + 1}'),
-                duration: const Duration(seconds: 1),
+                onPressed: () {},
                 ),
-                );
-                },
-                ),
-                onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                content: Text('Selected Item ${index + 1}'),
-                duration: const Duration(seconds: 1),
-                ),
-                );
-                },
                 ),
                 );
                 },
