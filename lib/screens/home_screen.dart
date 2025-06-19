@@ -349,6 +349,4 @@ class _MyHomeScreenState extends State<MyHomeScreen>
       ),
     );
   }
-
-  import(String s) {}
 }
