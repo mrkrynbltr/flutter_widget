@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:audio_session/audio_session.dart';
 import 'package:palette_generator/palette_generator.dart';
@@ -36,12 +37,12 @@ class _MyHomeScreenState extends State<MyHomeScreen>
   }
 
   Future<void> _extractColorsFromAlbumArt() async {
-    if (currentSongIndex == null || songs[currentSongIndex!].coverImage == null) {
+    if (currentSongIndex == null ||
+        songs[currentSongIndex!].coverImage == null) {
       return;
     }
 
-    setState(() {
-    });
+    setState(() {});
 
     try {
       ImageProvider imageProvider;
@@ -69,7 +70,6 @@ class _MyHomeScreenState extends State<MyHomeScreen>
           _textColor = _primaryColor.computeLuminance() > 0.5
               ? Colors.black
               : Colors.white;
-
         });
       }
     } catch (e) {
@@ -188,13 +188,6 @@ class _MyHomeScreenState extends State<MyHomeScreen>
     super.dispose();
   }
 
-  String _formatDuration(Duration duration) {
-    String twoDigits(int n) => n.toString().padLeft(2, '0');
-    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
-    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
-    return "$twoDigitMinutes:$twoDigitSeconds";
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -300,112 +293,62 @@ class _MyHomeScreenState extends State<MyHomeScreen>
           ],
         ),
       ),
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (currentSongIndex != null)
-            StreamBuilder<Duration>(
-              stream: _audioPlayer.positionStream,
-              builder: (context, snapshot) {
-                final position = snapshot.data ?? Duration.zero;
-                final duration = _audioPlayer.duration ?? Duration.zero;
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(_formatDuration(position)),
-                          Text(_formatDuration(duration)),
-                        ],
-                      ),
-                    ),
-                    Slider(
-                      value: position.inMilliseconds.toDouble(),
-                      max: duration.inMilliseconds > 0
-                          ? duration.inMilliseconds.toDouble()
-                          : 1.0,
-                      activeColor: _primaryColor,
-                      onChanged: (value) {
-                        _audioPlayer.seek(
-                          Duration(milliseconds: value.toInt()),
-                        );
-                      },
-                    ),
-                  ],
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            MyIcon(
+              Icons.dashboard,
+              color: Colors.red.shade800,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const DashboardScreen(),
+                  ),
                 );
               },
             ),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                MyIcon(
-                  Icons.dashboard,
-                  color: Colors.red.shade800,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const DashboardScreen(),
-                      ),
-                    );
-                  },
-                ),
-
-                MyIcon(
-                  isPlaying ? Icons.pause_circle : Icons.play_circle,
-                  color: Colors.red,
-                  size: 54.0,
-                  onTap: togglePlayPause,
-                ),
-
-                MyIcon(
-                  Icons.logout,
-                  color: Colors.red.shade800,
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          backgroundColor: Colors.red.shade50,
-                          title: const Text(
-                            'Exit App',
-                            style: TextStyle(color: Colors.red),
-                          ),
-                          content: const Text('Are you sure you want to exit?'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () => Navigator.of(context).pop(false),
-                              child: Text(
-                                'No',
-                                style: TextStyle(color: Colors.red.shade700),
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop(true);
-                              },
-                              child: Text(
-                                'Yes',
-                                style: TextStyle(color: Colors.red.shade700),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                ),
-              ],
+            MyIcon(
+              isPlaying ? Icons.pause_circle : Icons.play_circle,
+              color: Colors.red,
+              size: 54.0,
+              onTap: togglePlayPause,
             ),
-          ),
-        ],
+
+            MyIcon(
+              Icons.logout,
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Exit App'),
+                      content: const Text('Are you sure you want to exit?'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(false),
+                          child: const Text('No'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            SystemNavigator.pop();
+                          },
+                          child: const Text('Yes'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
+
+  import(String s) {}
 }
