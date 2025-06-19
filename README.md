@@ -1,4 +1,4 @@
-# flutter_widget
+# Musically
 
 A new Flutter project.
 
