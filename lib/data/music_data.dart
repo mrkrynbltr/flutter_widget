@@ -70,5 +70,19 @@ class MusicData {
       coverImage:
           "https://cdn-images.dzcdn.net/images/cover/f0282817b697279e56df13909962a54a/500x500.jpg",
     ),
+    Song(
+      title: "Too Much Heaven",
+      singer: "Bee Gees",
+      url: "assets/music/too_much_heaven.mp3",
+      coverImage:
+          "https://upload.wikimedia.org/wikipedia/en/thumb/8/86/Toomuchheaven.jpg/250px-Toomuchheaven.jpg",
+    ),
+    Song(
+      title: "Without Me",
+      singer: "Eminem",
+      url: "assets/music/without_me.mp3",
+      coverImage:
+          "https://upload.wikimedia.org/wikipedia/en/thumb/a/ad/Eminem_-_Without_Me_CD_cover.jpg/250px-Eminem_-_Without_Me_CD_cover.jpg",
+    ),
   ];
 }
